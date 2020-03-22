@@ -29,9 +29,8 @@ public class BaseResponseDto<T> {
         this.httpStatus = status.value() + "";
     }
 
-    public BaseResponseDto(T data) {
-        this.data = data;
-        this.httpStatus = HttpStatus.OK.value() + "";
+    public static <T> BaseResponseDto<T> of(T data) {
+        return new BaseResponseDto<T>(data, HttpStatus.OK);
     }
 
 

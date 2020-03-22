@@ -1,5 +1,6 @@
 package com.gaurav.SapeFeeCalcGaurav.controller;
 
+import com.gaurav.SapeFeeCalcGaurav.dto.BaseResponseDto;
 import com.gaurav.SapeFeeCalcGaurav.dto.Transaction;
 import com.gaurav.SapeFeeCalcGaurav.dto.TransactionSummary;
 import com.gaurav.SapeFeeCalcGaurav.service.TransactionProcessor;
@@ -26,15 +27,15 @@ public class FileController {
 
     @GetMapping("/process/get/transactions")
     @ApiOperation(value = "Processes provided file and returns List of transactions")
-    public List<Transaction> processFileTransactions(@RequestParam("filename") String fileName, @RequestParam("filePath") String filePath) throws Exception {
-        return transactionProcessor.parseTransactionFile(fileName, filePath);
+    public BaseResponseDto<List<Transaction>> processFileTransactions(@RequestParam("filename") String fileName, @RequestParam("filePath") String filePath) throws Exception {
+        return BaseResponseDto.of(transactionProcessor.parseTransactionFile(fileName, filePath));
     }
 
     @GetMapping("/process/get/transaction-summary")
     @ApiOperation(value = "Processes provided file and returns List of transaction summary")
-    public List<TransactionSummary> processTransactions(@RequestParam("filename") String fileName, @RequestParam("filePath") String filePath) throws Exception {
+    public BaseResponseDto<List<TransactionSummary>> processTransactions(@RequestParam("filename") String fileName, @RequestParam("filePath") String filePath) throws Exception {
         List<TransactionSummary> summaries = transactionProcessor.processTransactions(transactionProcessor.parseTransactionFile(fileName, filePath));
 
-        return summaries;
+        return BaseResponseDto.of(summaries);
     }
 }
